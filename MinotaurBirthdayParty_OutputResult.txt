@@ -1,0 +1,1 @@
+The total time it took for all guests: 150 to enter the labyrinth was: 725 milliseconds
