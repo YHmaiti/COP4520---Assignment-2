@@ -39,10 +39,10 @@ class LockTuple {
 
 public class MinotaurBirthdayParty {
 
-    private AtomicBoolean _isCupcakeThere = new AtomicBoolean(true);
-    private AtomicBoolean _simulationOngoing = new AtomicBoolean(true);
+    public AtomicBoolean _isCupcakeThere = new AtomicBoolean(true);
+    public AtomicBoolean _simulationOngoing = new AtomicBoolean(true);
     LockTuple _locks = new LockTuple(new ReentrantLock(), new ReentrantLock());
-    private int processedSofar = 0;
+    public int processedSofar = 0;
 
    public static void main(String[] args) {
 
@@ -73,16 +73,28 @@ public class MinotaurBirthdayParty {
         System.out.println("The decision guest is: " + decisionGuest);
 
         int currentNumberOfGuests = 0;
+        int currentEnteriesToLabyrinth = 0;
         
         long startTime = System.currentTimeMillis();
 
-        while (currentNumberOfGuests < numOfGuests) {
+/*         while (currentNumberOfGuests < numOfGuests) {
                 System.out.println("Guest " + currentNumberOfGuests + " is entering the labyrinth");
                 
                 guests[currentNumberOfGuests] = new Thread(new Simulation(decisionGuest, numOfGuests, currentNumberOfGuests, currentParty._locks, currentParty._simulationOngoing, currentParty._isCupcakeThere, currentParty.processedSofar));
                 guests[currentNumberOfGuests].start();
                 currentNumberOfGuests++;
-        }
+        } */
+
+        while (currentParty._simulationOngoing.get() == true) {
+
+            // pick a random thread to run 
+            currentNumberOfGuests = rand.nextInt(numOfGuests);
+                System.out.println("Guest " + currentNumberOfGuests + " is entering the labyrinth");
+                
+                guests[currentNumberOfGuests] = new Thread(new Simulation(currentParty, decisionGuest, numOfGuests, currentNumberOfGuests, currentParty._locks, currentParty._simulationOngoing, currentParty._isCupcakeThere, currentParty.processedSofar));
+                guests[currentNumberOfGuests].start();
+                currentEnteriesToLabyrinth++;
+            }
        
         for (int i = 0; i < numOfGuests; i++) {
                 try {
@@ -96,23 +108,27 @@ public class MinotaurBirthdayParty {
 
         long endTime = System.currentTimeMillis();
 
-        currentParty.printOutput(startTime, endTime, numOfGuests, decisionGuest);
+        currentParty.printOutput(startTime, endTime, numOfGuests, decisionGuest, currentEnteriesToLabyrinth);
 
    }
 
-   private void printOutput(long start, long end, int numOfGuests, int decisionGuest) {
+   private void printOutput(long start, long end, int numOfGuests, int decisionGuest, int totalEntries) {
 
         File outputFile = new File("MinotaurBirthdayParty_OutputResult.txt");
         try {
                 FileWriter fw = new FileWriter(outputFile);
                 fw.write("Thread index of -> " + decisionGuest + " reported that the party has ended and that all visitors entred the labyrinth at least once!!\n");
                 fw.write("The total time it took for all guests: "+ numOfGuests+" to enter the labyrinth was: " + (end - start) + " milliseconds");
+                // print the total entries to the labyrinth
+                fw.write("The total number of entries to the labyrinth was: " + totalEntries + "\n");
                 fw.close();
         } catch (IOException e) {
             System.out.println("An error occurred, while printing to the file, please try again!!");
         }
         System.out.println("Thread index of -> " + decisionGuest + " reported that the party has ended and that all visitors entred the labyrinth at least once!!");
         System.out.println("The total time it took for all guests: "+ numOfGuests+" to enter the labyrinth was: " + (end - start) + " milliseconds");
+        // print the total entries to the labyrinth
+        System.out.println("The total number of entries to the labyrinth was: " + totalEntries);
         System.out.println("End of the party : D");
 
    }
@@ -129,8 +145,9 @@ class Simulation extends Thread {
     private int processedSofar;
     private int ateBefore = 0;
     private int indexOfDecisionGuest;
+    MinotaurBirthdayParty currentParty;
 
-    Simulation(int decisionGuestIndex, int totalExpectedGuests, int currentIndexOfGuest, LockTuple locks,AtomicBoolean statusOfParty, AtomicBoolean _isCupcakeThere, int processedSofar){
+    Simulation(MinotaurBirthdayParty Object, int decisionGuestIndex, int totalExpectedGuests, int currentIndexOfGuest, LockTuple locks,AtomicBoolean statusOfParty, AtomicBoolean _isCupcakeThere, int processedSofar){
         this.currentGuestIndex = currentIndexOfGuest;
         this._isPartyStillGoing = statusOfParty;
         this._isCupcakeThere = _isCupcakeThere;
@@ -139,6 +156,7 @@ class Simulation extends Thread {
         this.processedSofar = processedSofar;
         this.ateBefore = 0;
         this.indexOfDecisionGuest = decisionGuestIndex;
+        this.currentParty = Object;
     }
 
     @Override
@@ -188,6 +206,7 @@ class Simulation extends Thread {
                 _isCupcakeThere.set(true);
                 if(allGuestsWereProcessed()) {
                     _isPartyStillGoing.set(false);
+                    currentParty._simulationOngoing.set(false);
                 }
                 System.out.println("Guest " + this.currentGuestIndex + " has reset the cake for others and is leaving the labyrinth");
             }finally {

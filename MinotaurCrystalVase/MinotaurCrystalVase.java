@@ -5,6 +5,16 @@ import java.util.concurrent.*;
 
 public class MinotaurCrystalVase {
 
+    private int totalNumberOfGuests;
+
+    MinotaurCrystalVase(){
+        this.totalNumberOfGuests = 0;
+    }
+
+    // we create a function that will create the thread of each guest 
+    private void generateGuests(int numberOfGuests) {
+        
+    }
     public static void main(String[] args) {
         
         // first we will prompt the user for the number of guests (threads) that are within the Minotaur's party 
@@ -17,13 +27,11 @@ public class MinotaurCrystalVase {
             totalGuestNumber = sc.nextInt();
         }
 
-        // now we prompt for the time the party will take
-        System.out.println("What is the duration of the party? (in seconds) -> ");
-        int durationOfParty = sc.nextInt();
-        while (durationOfParty < 1) {
-            System.out.println("The party has less than one second, are you sure you want to have a party? (try again) -> ");
-            durationOfParty = sc.nextInt();
-        }
+        sc.close();
+
+
+
+
     }
 
 }
