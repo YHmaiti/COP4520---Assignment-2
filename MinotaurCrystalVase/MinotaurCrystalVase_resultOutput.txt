@@ -1,2 +1,2 @@
-The Minotaur's Vase party took -> 3223 milliseconds and the number of total accesses to the showRoom (vase location) was -> 201.
+The Minotaur's Vase party took -> 3210 milliseconds and the number of total accesses to the showRoom (vase location) was -> 200.
 The total number of processed threads was -> 100.
