@@ -1,2 +1,2 @@
-Thread index of -> 43 reported that the party has ended and that all visitors entred the labyrinth at least once!!
-The total time it took for all guests: 200 to enter the labyrinth was: 9681 millisecondsThe total number of entries to the labyrinth was: 11018
+Thread index of -> 90 reported that the party has ended and that all visitors entred the labyrinth at least once!!
+The total time it took for all guests: 100 to enter the labyrinth was: 172 millisecondsThe total number of entries to the labyrinth was: 1688070

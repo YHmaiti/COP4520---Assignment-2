@@ -32,6 +32,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+
 /*
  * @brief: this class presents a set of lock operations to the labyrinth and cupcake locks as needed
  */
@@ -66,8 +67,8 @@ class LockTuple {
 /*
  * @brief: this class has the driver function and also handles spawning the threads and joining them.
  *         It also hanles the time tracking and reporting the output along with any declarations needed
- *         in additon, to upper level simulation management such as picking random guests (threads) to go 
- *         into the labyrinth.
+ *         in additon to upper level simulation management such as picking random guests (threads) to go 
+ *         into the labyrinth and randomly selecting a deciding thread.
  */
 public class MinotaurBirthdayParty {
 
@@ -82,8 +83,11 @@ public class MinotaurBirthdayParty {
     // keep track of the processed guests
     public int processedSofar = 0;
 
+    static int currentEnteriesToLabyrinth = 0;
+    static int temp;
+
     // driver method
-    public static void main(String[] args) {
+    public static void main(String[] args){
 
         // create an instance of the current class
         MinotaurBirthdayParty currentParty = new MinotaurBirthdayParty();
@@ -122,22 +126,25 @@ public class MinotaurBirthdayParty {
 
         // counter for the guests in the looping process, and also a counter for the enteries, these are helpers for debugging/loop counters also.
         int currentNumberOfGuests = 0;
-        int currentEnteriesToLabyrinth = 0;
+        
         
         // log the start time
         long startTime = System.currentTimeMillis();
 
-        // as long as the simulation is not stopped based on the conditions and strategy we discussed, we continue to spaw threads
+        // as long as the simulation is not stopped based on the conditions and strategy we discussed, we continue to spawn threads
         // randomness is also applied here, as based on the prompt the Minotaur can pick any guest to go into the labyrinth, even pick the same guest 
-        // again and even more than once. So we randomize to simulate that
-        while (currentParty._simulationOngoing.get() == true) {
-            currentNumberOfGuests = rand.nextInt(numOfGuests);
-            System.out.println("Guest -> " + currentNumberOfGuests + " is entering the labyrinth");   
-            guests[currentNumberOfGuests] = new Thread(new Simulation(currentParty, decisionGuest, numOfGuests, currentNumberOfGuests, currentParty._locks, currentParty._simulationOngoing, currentParty._isCupcakeThere, currentParty.processedSofar));
-            guests[currentNumberOfGuests].start();
-            currentEnteriesToLabyrinth++;
+        // again and even more than once. The data racing will be smulated here automatically without explicitely picking a random guest before starting their thread 
+        // to avoid making it sequential, so we stick with the main thread starting all threads and running the child threads in parallel and that will simulate the data racing
+        // which by my logic is avoided based on the logic discussed.
+        for (int i = 0; i < numOfGuests; i++) {
+            guests[i] = new Thread(new Simulation(currentParty, decisionGuest, numOfGuests, i, currentParty._locks, currentParty._simulationOngoing, currentParty._isCupcakeThere, currentParty.processedSofar));
+            guests[i].start();
         }
-       
+
+        while(currentParty._simulationOngoing.get() == true) {
+            continue;
+        }
+
         // after the simulation has ended we simply join the threads
         for (int i = 0; i < numOfGuests; i++) {
             try {
@@ -227,6 +234,8 @@ class Simulation extends Thread {
             _locks.getLabyrinthAccessLock().lock();
             try {
                 LabyrinthOutcome();
+                // updae the total enteries to the labyrinth
+                this.currentParty.currentEnteriesToLabyrinth++;
             }finally {
                 _locks.getLabyrinthAccessLock().unlock();
             }
@@ -283,7 +292,7 @@ class Simulation extends Thread {
                     currentParty._simulationOngoing.set(false);
                 }
                 // use this if needed to test:
-                //System.out.println("Guest " + this.currentGuestIndex + " has reset the cake for others and is leaving the labyrinth");
+                // System.out.println("Guest " + this.currentGuestIndex + " has reset the cake for others and is leaving the labyrinth");
             }finally {
                 _locks.getCupcakeAccessLock().unlock();
             } 
@@ -303,5 +312,6 @@ class Simulation extends Thread {
                 _locks.getCupcakeAccessLock().unlock();
             }
         }
+        
     }
 }
