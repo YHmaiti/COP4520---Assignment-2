@@ -91,7 +91,8 @@ class Simulation extends Thread{
             if(_AvailableRoom.get() == true) {
 
                 // print the current guest that is going to see the crystal
-                System.out.println("Guest " + _guestIndex + " is going to see the crystal now.");
+                // use this for testing if needed:
+                /* System.out.println("Guest " + _guestIndex + " is going to see the crystal now."); */
                 
                 // set the room to unavailable
                 _AvailableRoom.set(false);
