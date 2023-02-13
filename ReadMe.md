@@ -42,30 +42,30 @@ under an efficient and optimized execution time.
 I varied the number of guests that can go in, I tested with 100 up to 500, and I report the results here: 
 Note: the decision guest is chosen at the start, and I report the time taken, number of enteries to the labyrinth (shows that indead there is randomness and threads that went in more than once).
  
-100
+100 
 The decision guest is: 91
 Thread index of -> 91 reported that the party has ended and that all visitors entred the labyrinth at least once!!
 The total time it took for all guests: 100 to enter the labyrinth was: 175 milliseconds
-The total number of entries to the labyrinth was: 1765764
------------------------------------------------------------------------
-200
+The total number of entries to the labyrinth was: 1765764 
+ 
+200 
 The decision guest is: 152
 Thread index of -> 152 reported that the party has ended and that all visitors entred the labyrinth at least once!!
 The total time it took for all guests: 200 to enter the labyrinth was: 465 milliseconds
-The total number of entries to the labyrinth was: 9427200
------------------------------------------------------------------------
-300
+The total number of entries to the labyrinth was: 9427200 
+ 
+300 
 The decision guest is: 2
 Thread index of -> 2 reported that the party has ended and that all visitors entred the labyrinth at least once!!
 The total time it took for all guests: 300 to enter the labyrinth was: 910 milliseconds
-The total number of entries to the labyrinth was: 24578365
------------------------------------------------------------------------
-500
+The total number of entries to the labyrinth was: 24578365 
+ 
+500 
 The decision guest is: 394
 Thread index of -> 394 reported that the party has ended and that all visitors entred the labyrinth at least once!!
 The total time it took for all guests: 500 to enter the labyrinth was: 2760 milliseconds
-The total number of entries to the labyrinth was: 75888352
-
+The total number of entries to the labyrinth was: 75888352 
+ 
 
 # Problem 2 - Minotaur Crystal Vase: 
 
@@ -115,19 +115,19 @@ The choice to end the party after at least all guests went in at least once was 
 Thread sleep time when inside the showroom: 10ms !!!!!!!!!!
 Also, keep in mind that a thread can enter more than once if they want... entery time was reported too !!!!!!!!!!!!
 
-100
+100 
 The Minotaur's Vase party took -> 3881 milliseconds and the number of total accesses to the showRoom (vase location) was -> 249.
-The total number of processed threads was -> 100.
-------------------------------------------------------------------------
-200
+The total number of processed threads was -> 100. 
+ 
+200 
 The Minotaur's Vase party took -> 18455 milliseconds and the number of total accesses to the showRoom (vase location) was -> 1185.
-The total number of processed threads was -> 200.
-------------------------------------------------------------------------
-300
+The total number of processed threads was -> 200. 
+ 
+300 
 The Minotaur's Vase party took -> 26851 milliseconds and the number of total accesses to the showRoom (vase location) was -> 1724.
-The total number of processed threads was -> 300.
-------------------------------------------------------------------------
-500
+The total number of processed threads was -> 300. 
+ 
+500 
 The Minotaur's Vase party took -> 28891 milliseconds and the number of total accesses to the showRoom (vase location) was -> 1857.
-The total number of processed threads was -> 500.
+The total number of processed threads was -> 500. 
 
