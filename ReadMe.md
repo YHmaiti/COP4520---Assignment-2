@@ -82,6 +82,8 @@ make it available. Only one guest at a time inside, when inside the thread (gues
 did not see the vase at least once. A guest can go in more than once if they want, so randomness is expected. Yet the program stops once every guest visited the 
 showroom at least once. 
 
+I use an atomic boolean for the available or busy status and I also lock the room when someone goes in and I put the thread to sleep for 10ms to simulate viewing the vase.
+
 The choice behind this strategy is as follows: 
 # Advantages: 
 Guests do not need to wait in a queue doing nothing, especially when N is high. 
