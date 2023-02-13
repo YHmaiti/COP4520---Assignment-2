@@ -5,8 +5,6 @@
 javac MinotaurBirthdayParty.java
 java MinotaurBirthdayParty 
 ``` 
-
-
 # To Compile and Run Problem 2 
 ``` 
 javac MinotaurCrystalVase.java
